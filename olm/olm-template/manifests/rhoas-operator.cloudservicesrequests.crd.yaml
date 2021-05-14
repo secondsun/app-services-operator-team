@@ -84,5 +84,25 @@ spec:
                         type: string
                       status:
                         type: string
+                serviceRegistries:
+                  type: array
+                  nullable: true
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      registryStatus:
+                        type: string
+                      registryUrl:
+                        type: string
+                      name:
+                        type: string
+                      lastUpdated:
+                        type: string
+                      registryDeploymentId:
+                        type: integer          
+                        format: int64
+                        nullable: true
               type: object
           type: object
