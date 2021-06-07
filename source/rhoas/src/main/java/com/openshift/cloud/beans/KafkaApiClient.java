@@ -41,9 +41,8 @@ public class KafkaApiClient {
     defaultClient.setBasePath(clientBasePath);
 
     // Configure HTTP bearer authorization: Bearer
-    HttpBearerAuth bearer = (HttpBearerAuth) defaultClient.getAuthentication("Bearer");
-    System.out.println(defaultClient.getAuthentications());
-    bearer.setBearerToken(bearerToken);
+    HttpBearerAuth Bearer = (HttpBearerAuth) defaultClient.getAuthentication("Bearer");
+    Bearer.setBearerToken(bearerToken);
 
     return new DefaultApi(defaultClient);
   }
@@ -53,7 +52,7 @@ public class KafkaApiClient {
     try {
       return createClient(accessToken).getKafkaById(kafkaId);
     } catch (ApiException e) {
-      String message = ConditionUtil.getStandarizedErrorMessage(e);
+      String message = ConditionUtil.getStandarizedErrorMessage(e.getCode(), e);
       throw new ConditionAwareException(message, e, KafkaCondition.Type.FoundKafkaById,
           KafkaCondition.Status.False, e.getClass().getName(), message);
     }
@@ -63,7 +62,7 @@ public class KafkaApiClient {
     try {
       return createClient(accessToken).getKafkas(null, null, null, null);
     } catch (ApiException e) {
-      String message = ConditionUtil.getStandarizedErrorMessage(e);
+      String message = ConditionUtil.getStandarizedErrorMessage(e.getCode(), e);
       throw new ConditionAwareException(message, e, KafkaCondition.Type.UserKafkasUpToDate,
           KafkaCondition.Status.False, e.getClass().getName(), message);
     }
@@ -77,7 +76,7 @@ public class KafkaApiClient {
       serviceAccountRequest.setName(spec.getServiceAccountName());
       return createSecurityClient(accessToken).createServiceAccount(serviceAccountRequest);
     } catch (ApiException e) {
-      String message = ConditionUtil.getStandarizedErrorMessage(e);
+      String message = ConditionUtil.getStandarizedErrorMessage(e.getCode(), e);
       throw new ConditionAwareException(message, e, KafkaCondition.Type.ServiceAccountCreated,
           KafkaCondition.Status.False, e.getClass().getName(), message);
     }

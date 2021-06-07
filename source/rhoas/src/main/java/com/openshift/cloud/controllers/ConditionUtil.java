@@ -193,11 +193,12 @@ public class ConditionUtil {
   /**
    * Map the api exception to proper error
    *
-   * @param e exception using APIException object
+   * @param code a http status code
+   * @param e exception using Exception object
    * @return a human readable String to be set as the message property of a failed condition
    */
-  public static String getStandarizedErrorMessage(ApiException e) {
-    var statusCode = e.getCode();
+  public static String getStandarizedErrorMessage(int code, Exception e) {
+    var statusCode = code;
     var reason = "";
     var errorObject = new HashMap<String, Object>();
 
