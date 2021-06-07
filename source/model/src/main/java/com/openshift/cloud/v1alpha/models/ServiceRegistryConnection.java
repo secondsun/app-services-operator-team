@@ -9,7 +9,7 @@ import io.fabric8.kubernetes.model.annotation.Version;
 import io.sundr.builder.annotations.Buildable;
 import io.sundr.builder.annotations.BuildableReference;
 
-@Plural("serviceregistryconnection")
+@Plural("serviceregistryconnections")
 @Group("rhoas.redhat.com")
 @Version("v1alpha1")
 @Buildable(builderPackage = "io.fabric8.kubernetes.api.builder", editableEnabled = false,

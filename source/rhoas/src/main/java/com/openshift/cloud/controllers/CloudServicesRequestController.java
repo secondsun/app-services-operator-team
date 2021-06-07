@@ -50,7 +50,6 @@ public class CloudServicesRequestController
     validateResource(resource);
     String accessToken = null;
     accessToken = accessTokenSecretTool.getAccessToken(accessTokenSecretName, namespace);
-
     var kafkaList = kasApiClient.listKafkas(accessToken);
     var registryList = srsApiClient.listRegistries(accessToken);
 

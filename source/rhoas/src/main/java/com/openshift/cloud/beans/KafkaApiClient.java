@@ -41,8 +41,9 @@ public class KafkaApiClient {
     defaultClient.setBasePath(clientBasePath);
 
     // Configure HTTP bearer authorization: Bearer
-    HttpBearerAuth Bearer = (HttpBearerAuth) defaultClient.getAuthentication("Bearer");
-    Bearer.setBearerToken(bearerToken);
+    HttpBearerAuth bearer = (HttpBearerAuth) defaultClient.getAuthentication("Bearer");
+    System.out.println(defaultClient.getAuthentications());
+    bearer.setBearerToken(bearerToken);
 
     return new DefaultApi(defaultClient);
   }
