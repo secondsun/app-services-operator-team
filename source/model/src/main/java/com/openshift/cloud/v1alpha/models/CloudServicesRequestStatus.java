@@ -7,6 +7,7 @@ import java.util.List;
 public class CloudServicesRequestStatus {
 
   private List<UserKafka> userKafkas;
+  private List<ServiceRegistry> serviceRegistries;
   private String lastUpdate;
   private List<KafkaCondition> conditions;
 
@@ -37,6 +38,14 @@ public class CloudServicesRequestStatus {
 
   public void setUserKafkas(List<UserKafka> userKafkas) {
     this.userKafkas = userKafkas;
+  }
+
+  public List<ServiceRegistry> getServiceRegistries() {
+    return serviceRegistries;
+  }
+
+  public void setServiceRegistries(List<ServiceRegistry> serviceRegistries) {
+    this.serviceRegistries = serviceRegistries;
   }
 
   public List<KafkaCondition> getConditions() {

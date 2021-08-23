@@ -3,8 +3,10 @@ package com.openshift.cloud.controllers;
 import com.openshift.cloud.beans.AccessTokenSecretTool;
 import com.openshift.cloud.beans.KafkaApiClient;
 import com.openshift.cloud.beans.KafkaK8sClients;
+import com.openshift.cloud.beans.ServiceRegistryApiClient;
 import com.openshift.cloud.utils.InvalidUserInputException;
 import com.openshift.cloud.v1alpha.models.CloudServicesRequest;
+import com.openshift.cloud.v1alpha.models.ServiceRegistry;
 import com.openshift.cloud.v1alpha.models.UserKafka;
 import io.javaoperatorsdk.operator.api.*;
 import io.javaoperatorsdk.operator.processing.event.EventSourceManager;
@@ -26,7 +28,10 @@ public class CloudServicesRequestController
   KafkaK8sClients kafkaClientFactory;
 
   @Inject
-  KafkaApiClient apiClient;
+  KafkaApiClient kasApiClient;
+
+  @Inject
+  ServiceRegistryApiClient srsApiClient;
 
   public CloudServicesRequestController() {}
 
@@ -46,7 +51,8 @@ public class CloudServicesRequestController
     String accessToken = null;
     accessToken = accessTokenSecretTool.getAccessToken(accessTokenSecretName, namespace);
 
-    var kafkaList = apiClient.listKafkas(accessToken);
+    var kafkaList = kasApiClient.listKafkas(accessToken);
+    var registryList = srsApiClient.listRegistries(accessToken);
 
     var userKafkas = new ArrayList<UserKafka>();
 
@@ -62,6 +68,20 @@ public class CloudServicesRequestController
     });
 
     resource.getStatus().setUserKafkas(userKafkas);
+
+    var registries = new ArrayList<ServiceRegistry>();
+
+    registryList.forEach(listItem -> {
+      var serviceRegistry = new ServiceRegistry().setId(listItem.getId())
+          .setName(listItem.getName()).setRegistryUrl(listItem.getRegistryUrl())
+          .setRegistryStatus(listItem.getStatus().getValue())
+          .setLastUpdated(listItem.getUpdatedAt().toInstant().toString())
+          .setRegistryDeploymentId(listItem.getRegistryDeploymentId());
+
+      registries.add(serviceRegistry);
+    });
+
+    resource.getStatus().setServiceRegistries(registries);
   }
 
   void validateResource(CloudServicesRequest resource) throws InvalidUserInputException {
