@@ -33,7 +33,7 @@ spec:
               accessTokenSecretName:
                 type: string
               serviceRegistryId:
-                type: integer
+                type: string
               credentials:
                 properties:
                   serviceAccountSecretName:
