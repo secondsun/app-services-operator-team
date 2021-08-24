@@ -129,7 +129,7 @@ spec:
               - image: quay.io/{{organization}}/service-operator:{{version}}
                 env:
                   - name: CLOUD_SERVICES_API
-                    value: https://api.openshift.com
+                    value: https://api.stage.openshift.com
                 imagePullPolicy: Always
                 name: rhoas-operator
                 resources:
